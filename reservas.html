@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservar Mesa | El Rincón Del Grao</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --red: #e63946; --black: #1a1a1a; --white: #ffffff; --gray: #f4f4f4; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; }
+        body { background: var(--gray); color: var(--black); line-height: 1.6; }
+        
+        header { background: var(--black); color: var(--white); text-align: center; padding: 30px 0; border-bottom: 5px solid var(--red); }
+        h1 { font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 1px; }
+        h1 span { color: var(--red); }
+
+        .container { width: 90%; max-width: 500px; margin: 40px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: 700; margin-bottom: 5px; font-size: 0.9rem; }
+        input, select { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 4px; font-size: 1rem; background: white; }
+        input:focus, select:focus { border-color: var(--red); outline: none; }
+
+        .btn-reserva { width: 100%; padding: 15px; background: var(--red); color: white; border: none; border-radius: 4px; font-weight: 700; font-size: 1rem; cursor: pointer; text-transform: uppercase; transition: 0.3s; margin-top: 10px; }
+        .btn-reserva:hover { background: #b52b35; transform: translateY(-2px); }
+
+        #mensaje { margin-top: 20px; padding: 15px; border-radius: 4px; display: none; text-align: center; font-weight: 700; }
+        .msg-error { background: #ffe3e5; color: var(--red); border: 1px solid var(--red); }
+        .msg-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+
+        .back-link { display: block; text-align: center; margin-top: 20px; color: var(--black); text-decoration: none; font-weight: 700; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>HACER UNA <span>RESERVA</span></h1>
+</header>
+
+<div class="container">
+    <form id="reservaForm">
+        <div class="form-group">
+            <label>Zona</label>
+            <select id="zona" required>
+                <option value="Interior">Interior</option>
+                <option value="Terraza">Terraza</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Día</label>
+            <input type="date" id="fecha" required>
+        </div>
+
+        <div class="form-group">
+            <label>Hora (Solo horas en punto)</label>
+            <select id="hora" required>
+                <option value="">Selecciona un día primero...</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Nº de Personas</label>
+            <input type="number" id="personas" min="1" max="10" value="2" required>
+        </div>
+
+        <button type="submit" class="btn-reserva">Confirmar Reserva</button>
+    </form>
+
+    <div id="mensaje"></div>
+    <a href="index.html" class="back-link">← VOLVER AL INICIO</a>
+</div>
+
+<script>
+    const form = document.getElementById('reservaForm');
+const mensaje = document.getElementById('mensaje');
+const fechaInput = document.getElementById('fecha');
+const horaSelect = document.getElementById('hora');
+
+// --- TU NÚMERO DE TELÉFONO AQUÍ ---
+const TELEFONO_RESTAURANTE = "34620894727"; 
+
+// Bloquear fechas pasadas
+const hoy = new Date().toISOString().split('T')[0];
+fechaInput.setAttribute('min', hoy);
+
+// Actualizar horas según el día (igual que antes)
+fechaInput.addEventListener('change', function() {
+    const fechaSeleccionada = new Date(this.value);
+    const diaSemana = fechaSeleccionada.getDay();
+    horaSelect.innerHTML = '<option value="">Selecciona una hora...</option>';
+    let inicio = 0, fin = 0;
+
+    if (diaSemana >= 1 && diaSemana <= 5) { inicio = 8; fin = 16; }
+    else if (diaSemana === 6) { inicio = 9; fin = 16; }
+    else if (diaSemana === 0) { mostrarMensaje("Los domingos estamos cerrados.", "msg-error"); return; }
+
+    for (let i = inicio; i <= fin; i++) {
+        const horaLabel = `${i < 10 ? '0' + i : i}:00`;
+        const option = document.createElement('option');
+        option.value = horaLabel;
+        option.textContent = horaLabel;
+        horaSelect.appendChild(option);
+    }
+    mensaje.style.display = "none";
+});
+
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const datos = {
+        zona: document.getElementById('zona').value,
+        fecha: fechaInput.value,
+        hora: horaSelect.value,
+        personas: document.getElementById('personas').value
+    };
+
+    let db = JSON.parse(localStorage.getItem('reservas_grao')) || [];
+    const ocupacion = db.filter(r => r.fecha === datos.fecha && r.hora === datos.hora && r.zona === datos.zona).length;
+
+    if (ocupacion >= 15) {
+        mostrarMensaje(`Lo sentimos, no hay mesas libres en ${datos.zona} a las ${datos.hora}.`, "msg-error");
+    } else {
+        // 1. Guardar en LocalStorage
+        db.push(datos);
+        localStorage.setItem('reservas_grao', JSON.stringify(db));
+
+        // 2. CREAR MENSAJE PARA WHATSAPP
+        const textoWhatsApp = `Hola! Me gustaría confirmar una reserva:%0A` +
+                              `📍 *Zona:* ${datos.zona}%0A` +
+                              `📅 *Fecha:* ${datos.fecha}%0A` +
+                              `⏰ *Hora:* ${datos.hora}%0A` +
+                              `👥 *Personas:* ${datos.personas}%0A` +
+                            `Muchas gracias!`;
+
+        const urlWhatsApp = `https://wa.me/${TELEFONO_RESTAURANTE}?text=${textoWhatsApp}`;
+
+        // 3. Mostrar éxito y abrir WhatsApp
+        mostrarMensaje("¡Reserva guardada! Redirigiendo a WhatsApp para confirmación...", "msg-success");
+        
+        setTimeout(() => {
+            window.open(urlWhatsApp, '_blank'); // Abre WhatsApp en otra pestaña
+            form.reset();
+            horaSelect.innerHTML = '<option value="">Selecciona un día primero...</option>';
+        }, 1500);
+    }
+});
+
+function mostrarMensaje(texto, clase) {
+    mensaje.innerText = texto;
+    mensaje.className = clase;
+    mensaje.style.display = "block";
+}
+</script>
+
+</body>
+</html>
