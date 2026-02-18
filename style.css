@@ -1,0 +1,85 @@
+:root {
+    --red: #e63946;
+    --black: #1a1a1a;
+    --white: #ffffff;
+    --light-gray: #f8f9fa;
+    --font-main: 'Montserrat', sans-serif;
+    --font-title: 'Oswald', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--white);
+    color: var(--black);
+    line-height: 1.6;
+}
+
+.container { width: 90%; max-width: 1200px; margin: auto; }
+
+/* Nav */
+nav {
+    background: var(--black);
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+.nav-content { display: flex; justify-content: space-between; align-items: center; }
+.logo { font-family: var(--font-title); color: var(--white); font-size: 1.6rem; }
+.logo span { color: var(--red); }
+.nav-links a { color: var(--white); text-decoration: none; margin-left: 20px; font-weight: 700; font-size: 0.8rem; }
+.nav-cta { background: var(--red); padding: 8px 18px; border-radius: 4px; transition: 0.3s; }
+.nav-cta:hover { background: #c12a36; }
+
+/* Hero */
+header {
+    height: 75vh;
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('imgbien.png');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    color: var(--white);
+}
+.badge { background: var(--red); color: white; padding: 4px 12px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; border-radius: 2px; }
+header h1 { font-family: var(--font-title); font-size: 3.5rem; margin: 15px 0; line-height: 1.1; }
+header h1 span { color: var(--red); }
+header p { max-width: 500px; font-size: 1.1rem; margin-bottom: 30px; }
+
+/* Botones */
+.btn { padding: 14px 28px; text-decoration: none; font-weight: 700; display: inline-block; transition: 0.3s; border-radius: 4px; border: none; }
+.btn-red { background: var(--red); color: var(--white); }
+.btn-outline { border: 2px solid var(--white); color: var(--white); margin-left: 10px; }
+.btn-red:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(230, 57, 70, 0.3); }
+.btn-full { width: 100%; text-align: center; }
+
+/* Especialidades */
+section { padding: 100px 0; }
+.title { font-family: var(--font-title); font-size: 2.8rem; text-align: center; margin-bottom: 60px; text-transform: uppercase; }
+.title span { color: var(--red); }
+
+.grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+.card { background: var(--light-gray); padding: 50px 30px; border-radius: 8px; text-align: center; border-bottom: 5px solid var(--red); transition: 0.3s; }
+.card:hover { transform: translateY(-10px); background: var(--white); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+.card-icon { font-size: 2.5rem; margin-bottom: 20px; }
+
+/* Contacto */
+#contacto { background: var(--light-gray); }
+.contact-box { display: grid; grid-template-columns: 1fr 1.2fr; gap: 50px; background: var(--white); padding: 40px; border-radius: 12px; }
+.contact-info h2 { font-family: var(--font-title); font-size: 2.2rem; margin-bottom: 20px; }
+.contact-info span { color: var(--red); }
+.data { margin: 30px 0; font-weight: 600; }
+.map { height: 350px; border-radius: 8px; overflow: hidden; border: 1px solid #ddd; }
+
+/* Footer & Floating */
+footer { background: var(--black); color: var(--white); padding: 30px 0; font-size: 0.8rem; text-align: center; }
+.floating-btn { position: fixed; bottom: 25px; right: 25px; background: var(--red); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; text-decoration: none; box-shadow: 0 5px 15px rgba(230,57,70,0.4); z-index: 1000; transition: 0.3s; }
+.floating-btn:hover { transform: scale(1.1); }
+
+@media (max-width: 768px) {
+    header h1 { font-size: 2.5rem; }
+    .contact-box { grid-template-columns: 1fr; padding: 20px; }
+    .nav-links { display: none; }
+}

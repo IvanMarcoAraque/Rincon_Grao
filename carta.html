@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta Oficial | El Rincón Del Grao</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --red: #e63946; --black: #1a1a1a; --white: #ffffff; --gray: #f4f4f4; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Montserrat', sans-serif; background: var(--white); color: var(--black); line-height: 1.6; }
+        .container { width: 95%; max-width: 900px; margin: auto; padding: 20px 0; }
+        header { background: var(--black); color: var(--white); text-align: center; padding: 40px 0; border-bottom: 6px solid var(--red); }
+        h1 { font-family: 'Oswald', sans-serif; font-size: 3rem; text-transform: uppercase; }
+        h1 span { color: var(--red); }
+        .section-title { font-family: 'Oswald', sans-serif; font-size: 1.8rem; background: var(--black); color: white; padding: 10px 20px; display: block; margin: 30px 0 15px; text-transform: uppercase; border-left: 8px solid var(--red); }
+        .promo-box { border: 4px solid var(--red); padding: 25px; background: var(--gray); margin-bottom: 30px; }
+        .price-tag { font-size: 2.5rem; font-weight: 900; color: var(--red); display: block; text-align: center; }
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .plato-click { cursor: pointer; padding: 10px; border-radius: 4px; border-bottom: 1px solid #ddd; transition: 0.2s; font-size: 0.9rem; font-weight: 600; }
+        .plato-click:hover { background: #ffe3e5; color: var(--red); }
+        .menu-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .menu-item { display: flex; justify-content: space-between; padding: 12px; background: white; border: 1px solid #eee; cursor: pointer; }
+        .item-name { font-weight: 700; text-transform: uppercase; font-size: 0.85rem; }
+        .item-price { font-family: 'Oswald', sans-serif; color: var(--red); font-weight: 700; }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); align-items: center; justify-content: center; }
+        .modal-content { background: white; padding: 30px; border-radius: 8px; width: 90%; max-width: 500px; text-align: center; border-top: 10px solid var(--red); }
+        .close { float: right; font-size: 28px; font-weight: bold; cursor: pointer; margin-top: -20px; }
+        .btn-back {
+            display: block; width: 200px; margin: 20px auto; padding: 12px; background: var(--red); color: white; text-decoration: none; text-align: center; font-weight: 700; border-radius: 4px; 
+            transition: 0.3s;}
+        @media (max-width: 600px) { .menu-grid, .menu-list { grid-template-columns: 1fr; } }
+        .btn-back:hover { background: rgba(95, 22, 22, 0.9); }
+
+        .take-away-box { background: var(--black); color: white; padding: 20px; border-radius: 8px; margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .take-away-box h3 { grid-column: 1 / span 2; color: var(--red); font-family: 'Oswald'; text-align: center; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+<div id="myModal" class="modal"><div class="modal-content"><span class="close" onclick="closeModal()">&times;</span><h2 id="modal-title" style="font-family:'Oswald'; color:var(--red);"></h2><p style="margin: 15px 0 5px; font-weight:700;">Composición:</p><p id="modal-ingredients"></p></div></div>
+
+<header><div class="container"><h1>EL RINCÓN <span>DEL GRAO</span></h1><p>Carta Completa y Detallada</p></div></header>
+
+<div class="container">
+    <div class="promo-box">
+        <h2 style="font-family:'Oswald'; text-align:center;">MENÚ DEL DÍA - 12€</h2>
+        <div class="menu-grid">
+            <div>
+                <h4 style="color:var(--red); border-bottom:2px solid var(--red);">PRIMEROS</h4>
+                <div class="plato-click" onclick="showPlato('Gazpacho Andaluz', 'Tomate maduro, pepino, pimiento verde, cebolla blanca, diente de ajo, aceite de oliva virgen extra, vinagre de Jerez, agua y sal. Servido con picatoste.')">• Gazpacho Andaluz</div>
+                <div class="plato-click" onclick="showPlato('Crema de Calabaza', 'Calabaza madura asada, zanahoria, puerro, patata, nata ligera, caldo de verduras natural y un toque de pimienta blanca.')">• Crema de Calabaza</div>
+                <div class="plato-click" onclick="showPlato('Paella de Secreto', 'Arroz variedad J.Sendra (D.O. Valencia), secreto ibérico picado, setas pleurotus, ajitos tiernos, pimentón de la vera, azafrán y caldo de carne.')">• Paella Secreto e itos</div>
+                <div class="plato-click" onclick="showPlato('Berenjena Rellena', 'Berenjena asada al horno, atún en aceite, sofrito de tomate, cebolla, pimiento, cobertura de bechamel suave y queso rallado gratinado.')">• Berenjena rellena de Atún</div>
+                <div class="plato-click" onclick="showPlato('Tortellini', 'Pasta italiana rellena de carne o queso, salsa de tomate casera con albahaca fresca, parmesano rallado y aceite de orégano.')">• Tortellini Tomate y Queso</div>
+            </div>
+            <div>
+                <h4 style="color:var(--red); border-bottom:2px solid var(--red);">SEGUNDOS</h4>
+                <div class="plato-click" onclick="showPlato('Secreto Ibérico', 'Corte magro de secreto ibérico a la parrilla, sal maldon, aceite de romero y guarnición de patatas fritas naturales.')">• Secreto a la Plancha</div>
+                <div class="plato-click" onclick="showPlato('Pechuga de Pollo', 'Pechuga de pollo de corral fileteada, marinada en limón y ajo, cocinada a la plancha con verduras de temporada.')">• Pechuga a la Plancha</div>
+                <div class="plato-click" onclick="showPlato('H. Rotos con Chistorra', 'Base de patata agria frita en aceite de oliva, dos huevos camperos fritos con puntilla y chistorra de Navarra a la brasa.')">• H. Rotos con Chistorra</div>
+                <div class="plato-click" onclick="showPlato('Atún con Verduras', 'Lomo de atún fresco marcado a la plancha, servido sobre cama de pisto valenciano (calabacín, berenjena, pimiento y tomate).')">• Atún Plancha y Verduras</div>
+                <div class="plato-click" onclick="showPlato('Calamares Romana', 'Anillas de calamar fresco, rebozado tradicional en harina de trigo y huevo, frito en aceite alto oleico. Servido con limón.')">• Calamares a la Romana</div>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="section-title">Nuestras Tapas</h2>
+    <div class="menu-list">
+        <div class="menu-item" onclick="showPlato('Puntilla', 'Puntilla de calamar fresco enharinada y frita a 180°C. Alta en fósforo y sabor marino.')"><span class="item-name">Puntilla</span><span class="item-price">9,00€</span></div>
+        <div class="menu-item" onclick="showPlato('Calamares', 'Calamar troceado a la plancha con picada de ajo-perejil o rebozado estilo romana.')"><span class="item-name">Calamares</span><span class="item-price">10,00€</span></div>
+        <div class="menu-item" onclick="showPlato('Tropero Langostino', 'Ensaladilla rusa base (patata, atún, mayo) reforzada con langostino tigre cocido y pimiento morrón.')"><span class="item-name">Tropero Langostino</span><span class="item-price">10,00€</span></div>
+        <div class="menu-item" onclick="showPlato('Bravas', 'Patata natural cortada irregular, doble fritura, salsa brava casera picante y alioli de ajo morado.')"><span class="item-name">Patatas Bravas</span><span class="item-price">6,00€</span></div>
+        <div class="menu-item" onclick="showPlato('Queso Frito', 'Dados de queso Edam o Mozzarella, doble empanado crujiente y mermelada de arándanos.')"><span class="item-name">Queso Frito</span><span class="item-price">8,00€</span></div>
+        <div class="menu-item" onclick="showPlato('Morro Frito', 'Careta de cerdo cortada en dados, frita hasta conseguir una textura de cristal. Sal gorda.')"><span class="item-name">Morro Frito</span><span class="item-price">7,00€</span></div>
+    </div>
+
+    <h2 class="section-title">Bodega y Bebidas</h2>
+    <div class="menu-list">
+        <div class="menu-item" onclick="showPlato('Cerveza Ambar', 'Cerveza lager especial, malta de cebada, lúpulo y agua. 5.2% Vol.')"><span class="item-name">Tercio Ambar 1900</span><span class="item-price">3,00€</span></div>
+        <div class="menu-item" onclick="showPlato('Vino Tinto', 'Vino tinto de la casa (D.O. Utiel-Requena), uva Bobal.')"><span class="item-name">Copa de Vino Tinto</span><span class="item-price">2,80€</span></div>
+        <div class="menu-item" onclick="showPlato('Refrescos', 'Gama Coca-Cola, Fanta, Aquarius o Nestea (330ml).')"><span class="item-name">Refresco Variado</span><span class="item-price">2,50€</span></div>
+        <div class="menu-item" onclick="showPlato('Agua Mineral', 'Agua mineral natural de manantial (500ml).')"><span class="item-name">Agua Mineral</span><span class="item-price">1,80€</span></div>
+        <div class="menu-item" onclick="showPlato('Café / Infusión', 'Café tueste natural, leche entera/desnatada o selección de tés.')"><span class="item-name">Café o Té</span><span class="item-price">1,50€</span></div>
+        <div class="menu-item" onclick="showPlato('Cremaet', 'Café, ron quemado con canela, limón y granos de café. Típico valenciano.')"><span class="item-name">Cremaet</span><span class="item-price">2,50€</span></div>
+    </div>
+
+    <div class="take-away-box">
+            <h3>COMIDA PARA LLEVAR</h3>
+            <p style="text-align:right;">1 Plato:</p> <p><strong>4,20€</strong></p>
+            <p style="text-align:right;">2 Platos:</p> <p><strong>7,50€</strong></p>
+        </div>
+
+    <a href="index.html" class="btn-back">VOLVER AL INICIO</a>
+</div>
+
+<script>
+    function showPlato(n, i) {
+        document.getElementById('modal-title').innerText = n;
+        document.getElementById('modal-ingredients').innerText = i;
+        document.getElementById('myModal').style.display = "flex";
+    }
+    function closeModal() { document.getElementById('myModal').style.display = "none"; }
+    window.onclick = function(event) { if (event.target == document.getElementById('myModal')) closeModal(); }
+</script>
+
+<footer><p>© 2026 El Rincón Del Grao - Puerto de Valencia</p></footer>
+</body>
+</html>
