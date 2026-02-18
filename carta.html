@@ -29,11 +29,15 @@
         .btn-back {
             display: block; width: 200px; margin: 20px auto; padding: 12px; background: var(--red); color: white; text-decoration: none; text-align: center; font-weight: 700; border-radius: 4px; 
             transition: 0.3s;}
-        @media (max-width: 600px) { .menu-grid, .menu-list { grid-template-columns: 1fr; } }
+        @media (max-width: 600px) { .menu-grid, .menu-list { grid-template-columns: 1fr; } .flex-footer { flex-direction: column; gap: 10px; } }
         .btn-back:hover { background: rgba(95, 22, 22, 0.9); }
 
         .take-away-box { background: var(--black); color: white; padding: 20px; border-radius: 8px; margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .take-away-box h3 { grid-column: 1 / span 2; color: var(--red); font-family: 'Oswald'; text-align: center; margin-bottom: 10px; }
+        footer { background: var(--black); color: var(--white); padding: 30px 0; font-size: 0.8rem; text-align: center; }
+.flex-footer { display: flex; justify-content: space-between; align-items: center; }
+.floating-btn { position: fixed; bottom: 25px; right: 25px; background: whitesmoke; color: var(--red); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; text-decoration: none; box-shadow: 0 5px 15px rgba(230,57,70,0.4); z-index: 1000; transition: 0.3s; }
+.floating-btn:hover { transform: scale(1.1); }
     </style>
 </head>
 <body>
@@ -91,9 +95,17 @@
             <p style="text-align:right;">2 Platos:</p> <p><strong>7,50€</strong></p>
         </div>
 
-    <a href="index.html" class="btn-back">VOLVER AL INICIO</a>
+    <div id="botones">
+        <a href="index.html" class="btn-back">VOLVER AL INICIO</a>
+        <a href="reservas.html" class="btn-back">RESERVAR AHORA</a>
+    </div>
 </div>
-
+<footer>
+        <div class="container flex-footer">
+            <p>© 2026 El Rincón Del Grao. Energía y Autenticidad.</p>
+            <p>Desarrollado por Álvaro Matas Adam e Iván Marco Araque</p>
+        </div>
+    </footer>
 <script>
     function showPlato(n, i) {
         document.getElementById('modal-title').innerText = n;
@@ -104,6 +116,5 @@
     window.onclick = function(event) { if (event.target == document.getElementById('myModal')) closeModal(); }
 </script>
 
-<footer><p>© 2026 El Rincón Del Grao - Puerto de Valencia</p></footer>
 </body>
 </html>
