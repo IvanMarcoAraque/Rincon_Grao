@@ -40,10 +40,20 @@
 <div class="container">
     <form id="reservaForm">
         <div class="form-group">
+            <label>Nombre del Cliente</label>
+            <input type="text" id="nombre" placeholder="Tu nombre" required>
+        </div>
+
+        <div class="form-group">
+            <label>Teléfono de Contacto</label>
+            <input type="tel" id="tel_cliente" placeholder="Ej: 600000000" required>
+        </div>
+
+        <div class="form-group">
             <label>Zona</label>
             <select id="zona" required>
-                <option value="Interior">Interior</option>
-                <option value="Terraza">Terraza</option>
+                <option value="Interior">Interior 🏠</option>
+                <option value="Terraza">Terraza ☀️</option>
             </select>
         </div>
 
@@ -53,7 +63,7 @@
         </div>
 
         <div class="form-group">
-            <label>Hora (Solo horas en punto)</label>
+            <label>Hora</label>
             <select id="hora" required>
                 <option value="">Selecciona un día primero...</option>
             </select>
@@ -64,7 +74,7 @@
             <input type="number" id="personas" min="1" max="10" value="2" required>
         </div>
 
-        <button type="submit" class="btn-reserva">Confirmar Reserva</button>
+        <button type="submit" class="btn-reserva">Confirmar por WhatsApp 💬</button>
     </form>
 
     <div id="mensaje"></div>
@@ -73,84 +83,96 @@
 
 <script>
     const form = document.getElementById('reservaForm');
-const mensaje = document.getElementById('mensaje');
-const fechaInput = document.getElementById('fecha');
-const horaSelect = document.getElementById('hora');
+    const mensaje = document.getElementById('mensaje');
+    const fechaInput = document.getElementById('fecha');
+    const horaSelect = document.getElementById('hora');
 
-// --- TU NÚMERO DE TELÉFONO AQUÍ ---
-const TELEFONO_RESTAURANTE = "34620894727"; 
+    // CONFIGURACIÓN (Tu número con prefijo de España)
+    const TELEFONO_RESTAURANTE = "34633167416"; 
 
-// Bloquear fechas pasadas
-const hoy = new Date().toISOString().split('T')[0];
-fechaInput.setAttribute('min', hoy);
+    // No permitir fechas pasadas
+    const hoy = new Date().toISOString().split('T')[0];
+    fechaInput.setAttribute('min', hoy);
 
-// Actualizar horas según el día (igual que antes)
-fechaInput.addEventListener('change', function() {
-    const fechaSeleccionada = new Date(this.value);
-    const diaSemana = fechaSeleccionada.getDay();
-    horaSelect.innerHTML = '<option value="">Selecciona una hora...</option>';
-    let inicio = 0, fin = 0;
+    // Lógica de horarios según el día de la semana
+    fechaInput.addEventListener('change', function() {
+        const fechaSeleccionada = new Date(this.value);
+        const diaSemana = fechaSeleccionada.getDay(); // 0 es domingo
+        horaSelect.innerHTML = '<option value="">Selecciona una hora...</option>';
+        let inicio = 0, fin = 0;
 
-    if (diaSemana >= 1 && diaSemana <= 5) { inicio = 8; fin = 16; }
-    else if (diaSemana === 6) { inicio = 9; fin = 16; }
-    else if (diaSemana === 0) { mostrarMensaje("Los domingos estamos cerrados.", "msg-error"); return; }
+        if (diaSemana >= 1 && diaSemana <= 5) { // Lunes a Viernes
+            inicio = 8; fin = 16; 
+        } else if (diaSemana === 6) { // Sábados
+            inicio = 9; fin = 16; 
+        } else if (diaSemana === 0) { // Domingos Cerrado
+            mostrarMensaje("❌ Los domingos estamos cerrados.", "msg-error");
+            this.value = "";
+            return;
+        }
 
-    for (let i = inicio; i <= fin; i++) {
-        const horaLabel = `${i < 10 ? '0' + i : i}:00`;
-        const option = document.createElement('option');
-        option.value = horaLabel;
-        option.textContent = horaLabel;
-        horaSelect.appendChild(option);
-    }
-    mensaje.style.display = "none";
-});
+        for (let i = inicio; i <= fin; i++) {
+            const horaLabel = `${i < 10 ? '0' + i : i}:00`;
+            const option = document.createElement('option');
+            option.value = horaLabel;
+            option.textContent = horaLabel;
+            horaSelect.appendChild(option);
+        }
+        mensaje.style.display = "none";
+    });
 
-form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const datos = {
-        zona: document.getElementById('zona').value,
-        fecha: fechaInput.value,
-        hora: horaSelect.value,
-        personas: document.getElementById('personas').value
-    };
-
-    let db = JSON.parse(localStorage.getItem('reservas_grao')) || [];
-    const ocupacion = db.filter(r => r.fecha === datos.fecha && r.hora === datos.hora && r.zona === datos.zona).length;
-
-    if (ocupacion >= 15) {
-        mostrarMensaje(`Lo sentimos, no hay mesas libres en ${datos.zona} a las ${datos.hora}.`, "msg-error");
-    } else {
-        // 1. Guardar en LocalStorage
-        db.push(datos);
-        localStorage.setItem('reservas_grao', JSON.stringify(db));
-
-        // 2. CREAR MENSAJE PARA WHATSAPP
-        const textoWhatsApp = `Hola! Me gustaría confirmar una reserva:%0A` +
-                              `📍 *Zona:* ${datos.zona}%0A` +
-                              `📅 *Fecha:* ${datos.fecha}%0A` +
-                              `⏰ *Hora:* ${datos.hora}%0A` +
-                              `👥 *Personas:* ${datos.personas}%0A` +
-                            `Muchas gracias!`;
-
-        const urlWhatsApp = `https://wa.me/${TELEFONO_RESTAURANTE}?text=${textoWhatsApp}`;
-
-        // 3. Mostrar éxito y abrir WhatsApp
-        mostrarMensaje("¡Reserva guardada! Redirigiendo a WhatsApp para confirmación...", "msg-success");
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
         
-        setTimeout(() => {
-            window.open(urlWhatsApp, '_blank'); // Abre WhatsApp en otra pestaña
-            form.reset();
-            horaSelect.innerHTML = '<option value="">Selecciona un día primero...</option>';
-        }, 1500);
-    }
-});
+        const datos = {
+            nombre: document.getElementById('nombre').value,
+            tel_cliente: document.getElementById('tel_cliente').value,
+            zona: document.getElementById('zona').value,
+            fecha: fechaInput.value,
+            hora: horaSelect.value,
+            personas: document.getElementById('personas').value
+        };
 
-function mostrarMensaje(texto, clase) {
-    mensaje.innerText = texto;
-    mensaje.className = clase;
-    mensaje.style.display = "block";
-}
+        // Guardado local y comprobación de huecos (máx 15 por turno)
+        let db = JSON.parse(localStorage.getItem('reservas_grao')) || [];
+        const ocupacion = db.filter(r => r.fecha === datos.fecha && r.hora === datos.hora && r.zona === datos.zona).length;
+
+        if (ocupacion >= 15) {
+            mostrarMensaje(`⚠️ Lo sentimos, no hay mesas libres en ${datos.zona} a esa hora.`, "msg-error");
+        } else {
+            db.push(datos);
+            localStorage.setItem('reservas_grao', JSON.stringify(db));
+
+            // MENSAJE PARA WHATSAPP CON EMOJIS Y FORMATO
+            const textoWhatsApp = 
+                `🍽️ *NUEVA RESERVA WEB*\n` +
+                `--------------------------\n` +
+                `👤 *Nombre:* ${datos.nombre}\n` +
+                `📞 *Teléfono:* ${datos.tel_cliente}\n` +
+                `📍 *Zona:* ${datos.zona}\n` +
+                `📅 *Fecha:* ${datos.fecha}\n` +
+                `⏰ *Hora:* ${datos.hora}\n` +
+                `👥 *Personas:* ${datos.personas}\n\n` +
+                `✨ _Por favor, confirmadme disponibilidad. ¡Gracias!_`;
+
+            // encodeURIComponent hace que los emojis y saltos de línea funcionen
+            const urlWhatsApp = `https://wa.me/${TELEFONO_RESTAURANTE}?text=${encodeURIComponent(textoWhatsApp)}`;
+
+            mostrarMensaje("✅ ¡Reserva guardada! Redirigiendo a WhatsApp...", "msg-success");
+            
+            setTimeout(() => {
+                window.open(urlWhatsApp, '_blank');
+                form.reset();
+                horaSelect.innerHTML = '<option value="">Selecciona un día primero...</option>';
+            }, 1200);
+        }
+    });
+
+    function mostrarMensaje(texto, clase) {
+        mensaje.innerText = texto;
+        mensaje.className = clase;
+        mensaje.style.display = "block";
+    }
 </script>
 
 </body>
