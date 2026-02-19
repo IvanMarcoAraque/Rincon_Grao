@@ -58,7 +58,7 @@
         body { background: var(--gray); color: var(--black); line-height: 1.6; }
         
         header { background: var(--black); color: var(--white); text-align: center; padding: 30px 0; border-bottom: 5px solid var(--red); }
-        h1 { font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 1px; }
+        h1 { font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 1px;  }
         h1 span { color: var(--red); }
 
         .container { width: 90%; max-width: 500px; margin: 40px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
@@ -95,12 +95,8 @@
 <body>
 
 <header>
-    <div style="display:flex; align-items:center; justify-content:space-between; padding:18px 0;">
+    <div>
         <h1 data-i18n="reservas.title">HACER UNA <span>RESERVA</span></h1>
-        <select id="langSelect" class="btn-lang" aria-label="Seleccionar idioma">
-            <option value="es">ES</option>
-            <option value="en">EN</option>
-        </select>
     </div>
 </header>
 
@@ -259,7 +255,7 @@
     }
 </script>
 
-<script src="i18n.js"></script>
+<!-- Removed i18n (site stays Spanish-only) -->
 
 </body>
 </html>
