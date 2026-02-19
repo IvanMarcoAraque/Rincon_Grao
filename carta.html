@@ -1,9 +1,51 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <title>Carta Completa | El Rincón Del Grao</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carta Oficial | El Rincón Del Grao</title>
+    <meta name="description" content="El mejor menú del día en el Puerto de Valencia. Almuerzos populares, arroces y comida casera frente a las Reales Atarazanas.">
+<meta name="keywords" content="Menú del día puerto valencia, almorzar puerto valencia, restaurante el grao, arroces valencia puerto">
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    "name": "El Rincón Del Grao",
+    "image": "https://tuweb.com/logo.png",
+    "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "C. del Dr. Josep Juan Dómine, 11",
+        "addressLocality": "Valencia",
+        "postalCode": "46011",
+        "addressCountry": "ES"
+    },
+    "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 39.4623,
+        "longitude": -0.3312
+    },
+    "url": "https://tuweb.com",
+    "telephone": "+34632852546",
+    "openingHoursSpecification": [
+        {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "07:30",
+        "closes": "17:00"
+        },
+        {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": "Saturday",
+        "opens": "09:00",
+        "closes": "17:00"
+        }
+    ],
+    "menu": "https://tuweb.com/carta.html",
+    "servesCuisine": "Spanish",
+    "priceRange": "€"
+}
+</script>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <!-- Favicons: modern SVG + PNG fallback -->
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -83,62 +125,80 @@
 </head>
 <body>
 
-<div id="myModal" class="modal"><div class="modal-content"><span class="close" onclick="closeModal()">&times;</span><h2 id="modal-title" style="font-family:'Oswald'; color:var(--red);"></h2><p style="margin: 15px 0 5px; font-weight:700;">Composición:</p><p id="modal-ingredients"></p></div></div>
+<div id="myModal" class="modal" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+        <button class="close" aria-label="Cerrar modal">&times;</button>
+        <h2 id="modal-title" style="font-family:'Oswald'; color:var(--red);"></h2>
+        <p style="margin: 15px 0 5px; font-weight:700;" data-i18n="modal.composition">Composición:</p>
+        <p id="modal-ingredients"></p>
+    </div>
+</div>
 
-<header><div class="container"><h1>EL RINCÓN <span>DEL GRAO</span></h1><p>Carta Completa y Detallada</p></div></header>
+<header>
+    <div class="container" style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+        <div>
+            <h1>EL RINCÓN <span>DEL GRAO</span></h1>
+            <p data-i18n="menu.title">Carta Completa y Detallada</p>
+        </div>
+        <select id="langSelect" class="btn-lang" aria-label="Seleccionar idioma">
+            <option value="es">ES</option>
+            <option value="en">EN</option>
+        </select>
+    </div>
+</header>
 
 <div class="container">
     <div class="promo-box">
-        <h2 style="font-family:'Oswald'; text-align:center;">MENÚ DEL DÍA - 12€</h2>
+        <h2 style="font-family:'Oswald'; text-align:center;" data-i18n="promo.title">MENÚ DEL DÍA - 12€</h2>
         <div class="menu-grid">
             <div>
-                <h4 style="color:var(--red); border-bottom:2px solid var(--red);">PRIMEROS</h4>
-                <div class="plato-click" onclick="showPlato('Gazpacho Andaluz', 'Tomate maduro, pepino, pimiento verde, cebolla blanca, diente de ajo, aceite de oliva virgen extra, vinagre de Jerez, agua y sal. Servido con picatoste.')">• Gazpacho Andaluz</div>
-                <div class="plato-click" onclick="showPlato('Crema de Calabaza', 'Calabaza madura asada, zanahoria, puerro, patata, nata ligera, caldo de verduras natural y un toque de pimienta blanca.')">• Crema de Calabaza</div>
-                <div class="plato-click" onclick="showPlato('Paella de Secreto', 'Arroz variedad J.Sendra (D.O. Valencia), secreto ibérico picado, setas pleurotus, ajitos tiernos, pimentón de la vera, azafrán y caldo de carne.')">• Paella Secreto e itos</div>
-                <div class="plato-click" onclick="showPlato('Berenjena Rellena', 'Berenjena asada al horno, atún en aceite, sofrito de tomate, cebolla, pimiento, cobertura de bechamel suave y queso rallado gratinado.')">• Berenjena rellena de Atún</div>
-                <div class="plato-click" onclick="showPlato('Tortellini', 'Pasta italiana rellena de carne o queso, salsa de tomate casera con albahaca fresca, parmesano rallado y aceite de orégano.')">• Tortellini Tomate y Queso</div>
+                <h4 style="color:var(--red); border-bottom:2px solid var(--red);" data-i18n="section.firsts">PRIMEROS</h4>
+                <div class="plato-click" onclick="showPlato('gazpacho')">• <span data-i18n="dish.gazpacho.name">Gazpacho Andaluz</span></div>
+                <div class="plato-click" onclick="showPlato('calabaza')">• <span data-i18n="dish.calabaza.name">Crema de Calabaza</span></div>
+                <div class="plato-click" onclick="showPlato('paella')">• <span data-i18n="dish.paella.name">Paella Secreto</span></div>
+                <div class="plato-click" onclick="showPlato('berenjena')">• <span data-i18n="dish.berenjena.name">Berenjena rellena de Atún</span></div>
+                <div class="plato-click" onclick="showPlato('tortellini')">• <span data-i18n="dish.tortellini.name">Tortellini Tomate y Queso</span></div>
             </div>
             <div>
-                <h4 style="color:var(--red); border-bottom:2px solid var(--red);">SEGUNDOS</h4>
-                <div class="plato-click" onclick="showPlato('Secreto Ibérico', 'Corte magro de secreto ibérico a la parrilla, sal maldon, aceite de romero y guarnición de patatas fritas naturales.')">• Secreto a la Plancha</div>
-                <div class="plato-click" onclick="showPlato('Pechuga de Pollo', 'Pechuga de pollo de corral fileteada, marinada en limón y ajo, cocinada a la plancha con verduras de temporada.')">• Pechuga a la Plancha</div>
-                <div class="plato-click" onclick="showPlato('H. Rotos con Chistorra', 'Base de patata agria frita en aceite de oliva, dos huevos camperos fritos con puntilla y chistorra de Navarra a la brasa.')">• H. Rotos con Chistorra</div>
-                <div class="plato-click" onclick="showPlato('Atún con Verduras', 'Lomo de atún fresco marcado a la plancha, servido sobre cama de pisto valenciano (calabacín, berenjena, pimiento y tomate).')">• Atún Plancha y Verduras</div>
-                <div class="plato-click" onclick="showPlato('Calamares Romana', 'Anillas de calamar fresco, rebozado tradicional en harina de trigo y huevo, frito en aceite alto oleico. Servido con limón.')">• Calamares a la Romana</div>
+                <h4 style="color:var(--red); border-bottom:2px solid var(--red);" data-i18n="section.seconds">SEGUNDOS</h4>
+                <div class="plato-click" onclick="showPlato('secreto')">• <span data-i18n="dish.secreto.name">Secreto a la Plancha</span></div>
+                <div class="plato-click" onclick="showPlato('pollo')">• <span data-i18n="dish.pollo.name">Pechuga a la Plancha</span></div>
+                <div class="plato-click" onclick="showPlato('huevos')">• <span data-i18n="dish.huevos.name">H. Rotos con Chistorra</span></div>
+                <div class="plato-click" onclick="showPlato('atun')">• <span data-i18n="dish.atun.name">Atún Plancha y Verduras</span></div>
+                <div class="plato-click" onclick="showPlato('calamares')">• <span data-i18n="dish.calamares.name">Calamares a la Romana</span></div>
             </div>
         </div>
     </div>
 
-    <h2 class="section-title">Nuestras Tapas</h2>
+    <h2 class="section-title" data-i18n="section.tapas">Nuestras Tapas</h2>
     <div class="menu-list">
-        <div class="menu-item" onclick="showPlato('Puntilla', 'Puntilla de calamar fresco enharinada y frita a 180°C. Alta en fósforo y sabor marino.')"><span class="item-name">Puntilla</span><span class="item-price">9,00€</span></div>
-        <div class="menu-item" onclick="showPlato('Calamares', 'Calamar troceado a la plancha con picada de ajo-perejil o rebozado estilo romana.')"><span class="item-name">Calamares</span><span class="item-price">10,00€</span></div>
-        <div class="menu-item" onclick="showPlato('Tropero Langostino', 'Ensaladilla rusa base (patata, atún, mayo) reforzada con langostino tigre cocido y pimiento morrón.')"><span class="item-name">Tropero Langostino</span><span class="item-price">10,00€</span></div>
-        <div class="menu-item" onclick="showPlato('Bravas', 'Patata natural cortada irregular, doble fritura, salsa brava casera picante y alioli de ajo morado.')"><span class="item-name">Patatas Bravas</span><span class="item-price">6,00€</span></div>
-        <div class="menu-item" onclick="showPlato('Queso Frito', 'Dados de queso Edam o Mozzarella, doble empanado crujiente y mermelada de arándanos.')"><span class="item-name">Queso Frito</span><span class="item-price">8,00€</span></div>
-        <div class="menu-item" onclick="showPlato('Morro Frito', 'Careta de cerdo cortada en dados, frita hasta conseguir una textura de cristal. Sal gorda.')"><span class="item-name">Morro Frito</span><span class="item-price">7,00€</span></div>
+        <div class="menu-item" onclick="showPlato('puntilla')"><span class="item-name" data-i18n="dish.puntilla.name">Puntilla</span><span class="item-price">9,00€</span></div>
+        <div class="menu-item" onclick="showPlato('calamares')"><span class="item-name" data-i18n="dish.calamares.name">Calamares</span><span class="item-price">10,00€</span></div>
+        <div class="menu-item" onclick="showPlato('tropero')"><span class="item-name" data-i18n="dish.tropero.name">Tropero Langostino</span><span class="item-price">10,00€</span></div>
+        <div class="menu-item" onclick="showPlato('bravas')"><span class="item-name" data-i18n="dish.bravas.name">Patatas Bravas</span><span class="item-price">6,00€</span></div>
+        <div class="menu-item" onclick="showPlato('queso')"><span class="item-name" data-i18n="dish.queso.name">Queso Frito</span><span class="item-price">8,00€</span></div>
+        <div class="menu-item" onclick="showPlato('morro')"><span class="item-name" data-i18n="dish.morro.name">Morro Frito</span><span class="item-price">7,00€</span></div>
     </div>
 
-    <h2 class="section-title">Bodega y Bebidas</h2>
+    <h2 class="section-title" data-i18n="section.wines">Bodega y Bebidas</h2>
     <div class="menu-list">
-        <div class="menu-item" onclick="showPlato('Cerveza Ambar', 'Cerveza lager especial, malta de cebada, lúpulo y agua. 5.2% Vol.')"><span class="item-name">Tercio Ambar 1900</span><span class="item-price">3,00€</span></div>
-        <div class="menu-item" onclick="showPlato('Vino Tinto', 'Vino tinto de la casa (D.O. Utiel-Requena), uva Bobal.')"><span class="item-name">Copa de Vino Tinto</span><span class="item-price">2,80€</span></div>
-        <div class="menu-item" onclick="showPlato('Refrescos', 'Gama Coca-Cola, Fanta, Aquarius o Nestea (330ml).')"><span class="item-name">Refresco Variado</span><span class="item-price">2,50€</span></div>
-        <div class="menu-item" onclick="showPlato('Agua Mineral', 'Agua mineral natural de manantial (500ml).')"><span class="item-name">Agua Mineral</span><span class="item-price">1,80€</span></div>
-        <div class="menu-item" onclick="showPlato('Café / Infusión', 'Café tueste natural, leche entera/desnatada o selección de tés.')"><span class="item-name">Café o Té</span><span class="item-price">1,50€</span></div>
-        <div class="menu-item" onclick="showPlato('Cremaet', 'Café, ron quemado con canela, limón y granos de café. Típico valenciano.')"><span class="item-name">Cremaet</span><span class="item-price">2,50€</span></div>
+        <div class="menu-item" onclick="showPlato('cerveza')"><span class="item-name" data-i18n="dish.cerveza.name">Tercio Ambar 1900</span><span class="item-price">3,00€</span></div>
+        <div class="menu-item" onclick="showPlato('vino')"><span class="item-name" data-i18n="dish.vino.name">Copa de Vino Tinto</span><span class="item-price">2,80€</span></div>
+        <div class="menu-item" onclick="showPlato('refresco')"><span class="item-name" data-i18n="dish.refresco.name">Refresco Variado</span><span class="item-price">2,50€</span></div>
+        <div class="menu-item" onclick="showPlato('agua')"><span class="item-name" data-i18n="dish.agua.name">Agua Mineral</span><span class="item-price">1,80€</span></div>
+        <div class="menu-item" onclick="showPlato('cafe')"><span class="item-name" data-i18n="dish.cafe.name">Café o Té</span><span class="item-price">1,50€</span></div>
+        <div class="menu-item" onclick="showPlato('cremaet')"><span class="item-name" data-i18n="dish.cremaet.name">Cremaet</span><span class="item-price">2,50€</span></div>
     </div>
 
     <div class="take-away-box">
-            <h3>COMIDA PARA LLEVAR</h3>
-            <p style="text-align:right;">1 Plato:</p> <p><strong>4,20€</strong></p>
-            <p style="text-align:right;">2 Platos:</p> <p><strong>7,50€</strong></p>
+            <h3 data-i18n="takeaway.title">COMIDA PARA LLEVAR</h3>
+            <p style="text-align:right;" data-i18n="takeaway.one">1 Plato:</p> <p><strong>4,20€</strong></p>
+            <p style="text-align:right;" data-i18n="takeaway.two">2 Platos:</p> <p><strong>7,50€</strong></p>
         </div>
 
     <div id="botones">
-        <a href="index.html" class="btn-back">VOLVER AL INICIO</a>
-        <a href="reservas.html" class="btn-back">RESERVAR AHORA</a>
+        <a href="index.html" class="btn-back" data-i18n="btn.back">VOLVER AL INICIO</a>
+        <a href="reservas.html" class="btn-back" data-i18n="btn.reserve">RESERVAR AHORA</a>
     </div>
 </div>
 <footer>
@@ -147,15 +207,7 @@
             <p>Desarrollado por Álvaro Matas Adam e Iván Marco Araque</p>
         </div>
     </footer>
-<script>
-    function showPlato(n, i) {
-        document.getElementById('modal-title').innerText = n;
-        document.getElementById('modal-ingredients').innerText = i;
-        document.getElementById('myModal').style.display = "flex";
-    }
-    function closeModal() { document.getElementById('myModal').style.display = "none"; }
-    window.onclick = function(event) { if (event.target == document.getElementById('myModal')) closeModal(); }
-</script>
+<script src="i18n.js"></script>
 
 </body>
 </html>

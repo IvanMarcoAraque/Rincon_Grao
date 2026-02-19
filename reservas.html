@@ -4,6 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reservar Mesa | El Rincón Del Grao</title>
+    <meta name="description" content="El mejor menú del día en el Puerto de Valencia. Almuerzos populares, arroces y comida casera frente a las Reales Atarazanas.">
+<meta name="keywords" content="Menú del día puerto valencia, almorzar puerto valencia, restaurante el grao, arroces valencia puerto">
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    "name": "El Rincón Del Grao",
+    "image": "https://tuweb.com/logo.png",
+    "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "C. del Dr. Josep Juan Dómine, 11",
+        "addressLocality": "Valencia",
+        "postalCode": "46011",
+        "addressCountry": "ES"
+    },
+    "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 39.4623,
+        "longitude": -0.3312
+    },
+    "url": "https://tuweb.com",
+    "telephone": "+34632852546",
+    "openingHoursSpecification": [
+        {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "07:30",
+        "closes": "17:00"
+        },
+        {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": "Saturday",
+        "opens": "09:00",
+        "closes": "17:00"
+        }
+    ],
+    "menu": "https://tuweb.com/carta.html",
+    "servesCuisine": "Spanish",
+    "priceRange": "€"
+}
+</script>
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="icon" href="logo.png" sizes="32x32" type="image/png">
     <link rel="apple-touch-icon" href="logo.png">
@@ -39,51 +81,62 @@
 <body>
 
 <header>
-    <h1>HACER UNA <span>RESERVA</span></h1>
+    <div style="display:flex; align-items:center; justify-content:space-between; padding:18px 0;">
+        <h1 data-i18n="reservas.title">HACER UNA <span>RESERVA</span></h1>
+        <select id="langSelect" class="btn-lang" aria-label="Seleccionar idioma">
+            <option value="es">ES</option>
+            <option value="en">EN</option>
+        </select>
+    </div>
 </header>
 
 <div class="container">
+    <div style="display:none" id="i18n-messages">
+        <span data-i18n="msg.closedSunday"></span>
+        <span data-i18n="msg.noTables"></span>
+        <span data-i18n="msg.reserved"></span>
+    </div>
     <form id="reservaForm">
         <div class="form-group">
-            <label>Nombre del Cliente</label>
-            <input type="text" id="nombre" placeholder="Tu nombre" required>
+            <label data-i18n="label.name">Nombre del Cliente</label>
+            <input type="text" id="nombre" data-i18n-placeholder="label.name" placeholder="Tu nombre" required>
         </div>
 
         <div class="form-group">
-            <label>Teléfono de Contacto</label>
-            <input type="tel" id="tel_cliente" placeholder="Ej: 600000000" required>
+            <label data-i18n="label.phone">Teléfono de Contacto</label>
+            <input type="tel" id="tel_cliente" data-i18n-placeholder="label.phone" placeholder="Ej: 600000000" required>
         </div>
 
         <div class="form-group">
-            <label>Zona</label>
+            <label data-i18n="label.zone">Zona</label>
             <select id="zona" required>
-                <option value="Interior">Interior 🏠</option>
-                <option value="Terraza">Terraza ☀️</option>
+                <option value="Interior" data-i18n="option.interior">Interior 🏠</option>
+                <option value="Terraza" data-i18n="option.terraza">Terraza ☀️</option>
             </select>
         </div>
 
         <div class="form-group">
-            <label>Día</label>
+            <label data-i18n="label.day">Día</label>
             <input type="date" id="fecha" required>
         </div>
 
         <div class="form-group">
-            <label>Hora</label>
+            <label data-i18n="label.time">Hora</label>
             <select id="hora" required>
-                <option value="">Selecciona un día primero...</option>
+                <option value="" data-i18n="select.timePlaceholder">Selecciona un día primero...</option>
             </select>
         </div>
 
         <div class="form-group">
-            <label>Nº de Personas</label>
+            <label data-i18n="label.people">Nº de Personas</label>
             <input type="number" id="personas" min="1" max="10" value="2" required>
         </div>
 
-        <button type="submit" class="btn-reserva">Confirmar por WhatsApp 💬</button>
+        <button type="submit" class="btn-reserva" data-i18n="btn.confirmReserva">Confirmar por WhatsApp 💬</button>
     </form>
 
     <div id="mensaje"></div>
-    <a href="index.html" class="back-link">← VOLVER AL INICIO</a>
+    <a href="index.html" class="back-link" data-i18n="btn.back">← VOLVER AL INICIO</a>
 </div>
 
 <script>
@@ -103,7 +156,7 @@
     fechaInput.addEventListener('change', function() {
         const fechaSeleccionada = new Date(this.value);
         const diaSemana = fechaSeleccionada.getDay(); // 0 es domingo
-        horaSelect.innerHTML = '<option value="">Selecciona una hora...</option>';
+    horaSelect.innerHTML = '<option value="" data-i18n="select.timePlaceholder">Selecciona una hora...</option>';
         let inicio = 0, fin = 0;
 
         if (diaSemana >= 1 && diaSemana <= 5) { // Lunes a Viernes
@@ -111,7 +164,7 @@
         } else if (diaSemana === 6) { // Sábados
             inicio = 9; fin = 16; 
         } else if (diaSemana === 0) { // Domingos Cerrado
-            mostrarMensaje("❌ Los domingos estamos cerrados.", "msg-error");
+            mostrarMensaje('i18n:msg.closedSunday', "msg-error");
             this.value = "";
             return;
         }
@@ -143,7 +196,7 @@
         const ocupacion = db.filter(r => r.fecha === datos.fecha && r.hora === datos.hora && r.zona === datos.zona).length;
 
         if (ocupacion >= 15) {
-            mostrarMensaje(`⚠️ Lo sentimos, no hay mesas libres en ${datos.zona} a esa hora.`, "msg-error");
+            mostrarMensaje(`i18n:msg.noTables|${datos.zona}`, "msg-error");
         } else {
             db.push(datos);
             localStorage.setItem('reservas_grao', JSON.stringify(db));
@@ -163,22 +216,36 @@
             // encodeURIComponent hace que los emojis y saltos de línea funcionen
             const urlWhatsApp = `https://wa.me/${TELEFONO_RESTAURANTE}?text=${encodeURIComponent(textoWhatsApp)}`;
 
-            mostrarMensaje("✅ ¡Reserva guardada! Redirigiendo a WhatsApp...", "msg-success");
+            mostrarMensaje('i18n:msg.reserved', "msg-success");
             
             setTimeout(() => {
                 window.open(urlWhatsApp, '_blank');
                 form.reset();
-                horaSelect.innerHTML = '<option value="">Selecciona un día primero...</option>';
+                horaSelect.innerHTML = '<option value="" data-i18n="select.timePlaceholder">Selecciona un día primero...</option>';
             }, 1200);
         }
     });
 
     function mostrarMensaje(texto, clase) {
-        mensaje.innerText = texto;
+        let finalText = texto;
+        if (typeof texto === 'string' && texto.startsWith('i18n:')) {
+            const payload = texto.slice(5);
+            let key = payload;
+            let param = null;
+            if (payload.indexOf('|') !== -1) {
+                [key, param] = payload.split('|');
+            }
+            const el = document.querySelector('[data-i18n="' + key + '"]');
+            finalText = el ? el.innerText : key;
+            if (param) finalText = finalText.replace('{zona}', param);
+        }
+        mensaje.innerText = finalText;
         mensaje.className = clase;
         mensaje.style.display = "block";
     }
 </script>
+
+<script src="i18n.js"></script>
 
 </body>
 </html>

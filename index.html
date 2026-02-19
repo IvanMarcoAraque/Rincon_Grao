@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>El Rincón Del Grao</title>
+    <title>El Rincón Del Grao | Energía y Sabor en el Puerto</title>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <!-- Favicons: modern SVG + PNG fallback -->
@@ -18,9 +18,15 @@
     <nav>
         <div class="container nav-content">
             <div class="logo">EL RINCÓN <span>DEL GRAO</span></div>
-            <div class="nav-links">
-                <a href="#contacto">Contacto</a>
-                <a href="reservas.html" class="nav-cta">RESERVAR AHORA</a>
+            <div style="display:flex; align-items:center; gap:10px;">
+                <div class="nav-links">
+                    <a href="#contacto" data-i18n="nav.contact">Contacto</a>
+                    <a href="reservas.html" class="nav-cta" data-i18n="nav.reserve">RESERVAR AHORA</a>
+                </div>
+                <select id="langSelect" class="btn-lang" aria-label="Seleccionar idioma">
+                    <option value="es">ES</option>
+                    <option value="en">EN</option>
+                </select>
             </div>
         </div>
     </nav>
@@ -28,44 +34,45 @@
     <header>
         <div class="container">
             <div class="hero-content fade-in">
-                <span class="badge">Energía y Sabor</span>
-                <h1>El pulso gastronómico de <span>Valencia frente al Puerto.</span></h1>
-                <p>Pasión en cada plato, desde nuestros famosos almuerzos hasta los arroces que nos definen.</p>
+                <span class="badge" data-i18n="badge">Energía y Sabor</span>
+                <h1 data-i18n="hero.title">El pulso gastronómico de <span>Valencia frente al Puerto.</span></h1>
+                <p data-i18n="hero.desc">Pasión en cada plato, desde nuestros famosos almuerzos hasta los arroces que nos definen.</p>
                 <div class="hero-btns">
-                    <a href="tel:+34632852546" class="btn btn-red">Llamar Ahora</a>
-                    <a href="carta.html" class="btn btn-outline">Ver Carta</a>
+                    <a href="tel:+34632852546" class="btn btn-red" data-i18n="btn.call">Llamar Ahora</a>
+                    <a href="carta.html" class="btn btn-outline" data-i18n="btn.menu">Ver Carta</a>
                 </div>
             </div>
         </div>
     </header>
 
 
-
     <section id="contacto">
         <div class="container">
             <div class="contact-box">
                 <div class="contact-info">
-                    <h2>Tu mesa te espera en el <span>corazón del puerto.</span></h2>
+                    <h2 data-i18n="contact.title">Tu mesa te espera en el <span>corazón del puerto.</span></h2>
                     <div class="data">
-                        <p>📍 C. del Dr. Josep Juan Dómine, 11, 46011 Valencia</p>
-                        <p>⏰ Lun a Vie: 07:30 – 17:00 | Sáb: 09:00 – 17:00</p>
+                        <p data-i18n="contact.addr">📍 C. del Dr. Josep Juan Dómine, 11, 46011 Valencia</p>
+                        <p data-i18n="contact.hours">⏰ Lun a Vie: 07:30 – 17:00 | Sáb: 09:00 – 17:00</p>
                     </div>
-                    <a href="https://www.google.com/maps/place/El+Rinc%C3%B3n+Del+Grao/@39.461597,-0.3317812,17z/data=!4m15!1m8!3m7!1s0xd60485c246f9ba3:0xda48a81d4fa8d60d!2sEl+Rinc%C3%B3n+Del+Grao!8m2!3d39.4617036!4d-0.3317735!10e9!16s%2Fg%2F11g6lzvkh0!3m5!1s0xd60485c246f9ba3:0xda48a81d4fa8d60d!8m2!3d39.4617036!4d-0.3317735!16s%2Fg%2F11g6lzvkh0?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D" class="btn btn-red btn-full" target="_blank">CÓMO LLEGAR</a>
+                    <a href="https://www.google.com/maps/place/El+Rinc%C3%B3n+Del+Grao/@39.461597,-0.3317812,17z" class="btn btn-red btn-full" target="_blank" data-i18n="contact.directions">CÓMO LLEGAR</a>
                 </div>
                 <div class="map">
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3080.34221481789!2d-0.3317812!3d39.461597!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd60485c246f9ba3%3A0xda48a81d4fa8d60d!2sEl%20Rinc%C3%B3n%20Del%20Grao!5e0!3m2!1ses!2ses!4v1771415110847!5m2!1ses!2ses" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
             </div>
         </div>
     </section>
 
     <footer>
         <div class="container flex-footer">
-            <p>© 2026 El Rincón Del Grao. Energía y Autenticidad.</p>
+            <p data-i18n="footer.copy">© 2026 El Rincón Del Grao. Energía y Autenticidad.</p>
             <p>Desarrollado por Álvaro Matas Adam e Iván Marco Araque</p>
         </div>
     </footer>
 
-    <a href="tel:+34632852546" class="floating-btn">📞</a>
+    <a href="tel:+34632852546" class="floating-btn" aria-label="Call" data-i18n="floating.phone">📞</a>
 
+    <script src="i18n.js"></script>
 </body>
 </html>

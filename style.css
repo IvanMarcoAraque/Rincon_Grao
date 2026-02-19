@@ -97,3 +97,38 @@ footer { background: var(--black); color: var(--white); padding: 30px 0; font-si
     margin-top: 40px;
 }
 
+
+/* Botón de Idioma */
+.btn-lang {
+    background: transparent;
+    border: 1px solid var(--red);
+    color: white;
+    padding: 5px 12px;
+    cursor: pointer;
+    font-family: 'Oswald';
+    border-radius: 4px;
+    margin-left: 15px;
+    transition: 0.3s;
+}
+.btn-lang:hover { background: var(--red); }
+
+/* Animaciones del Modal de la Carta */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes popIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.modal { animation: fadeIn 0.3s ease-out; }
+.modal-content { 
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+}
+
+/* Efecto hover profesional en platos */
+.plato-click:hover, .menu-item:hover {
+    transform: translateX(8px);
+    color: var(--red);
+    border-left: 4px solid var(--red);
+    padding-left: 15px;
+    transition: all 0.3s ease;
+}
